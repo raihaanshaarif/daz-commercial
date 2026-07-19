@@ -19,7 +19,7 @@ export default async function AppLayout({
               <Package className="size-[18px]" />
             </span>
             <span className="tracking-tight">
-              Voice<span className="text-muted-foreground"> / Shipments</span>
+              Daz<span className="text-muted-foreground"> / Shipments</span>
             </span>
           </Link>
           <div className="flex items-center gap-2">
