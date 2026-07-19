@@ -1,0 +1,109 @@
+// Voice Shipment Tracker — schema
+// Money fields use Float per spec. If paisa/cent-level precision ever matters,
+// migrate to Decimal (Prisma Decimal) — comparisons here use an epsilon.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  role         Role      @default(USER)
+  sessions     Session[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Buyer {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  shipments Shipment[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Factory {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  shipments Shipment[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Shipment {
+  id                  String              @id @default(uuid())
+  buyerId             String
+  factoryId           String
+  bookingNumber       String?
+  invoice             String              @unique
+  quantity            Int?
+  amount              Float? // total invoice amount (USD)
+  bookingDate         DateTime?
+  bookingHandoverDate DateTime?
+  handoverDate        DateTime?
+  etd                 DateTime?
+  lac                 Float?
+  approxPaymentDate   DateTime?
+  eta                 DateTime?
+  // A shipment is settled by (at most) one batch payment. No paymentId == unpaid.
+  paymentId           String?
+  payment             Payment?        @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+  buyer               Buyer           @relation(fields: [buyerId], references: [id], onDelete: Restrict)
+  factory             Factory         @relation(fields: [factoryId], references: [id], onDelete: Restrict)
+  orders              ShipmentOrder[]
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  @@index([buyerId])
+  @@index([factoryId])
+  @@index([paymentId])
+  @@index([bookingDate])
+  @@index([handoverDate])
+}
+
+model ShipmentOrder {
+  id         String   @id @default(uuid())
+  shipmentId String
+  orderNo    String
+  shipment   Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+
+  @@unique([shipmentId, orderNo])
+  @@index([orderNo])
+}
+
+model Payment {
+  id          String     @id @default(uuid())
+  amount      Float // lump sum actually received (may differ from invoice totals)
+  currency    String     @default("BDT")
+  receiveDate DateTime
+  details     String? // free-text note (bank ref, renegotiation, etc.)
+  shipments   Shipment[] // the invoices this payment settled
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([receiveDate])
+}
