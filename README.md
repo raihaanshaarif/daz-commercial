@@ -133,6 +133,14 @@ group of invoice rows it settled.
   `src/components/shipments/shipment-table.tsx`) — the Excel look.
 - Deleting a payment marks its invoices unpaid again (`onDelete: SetNull`).
 
+## Backup
+
+Admins can download a full database backup from the account menu (top-right →
+**Backup database**), served by `src/app/api/backup/route.ts`. It's a single
+JSON file dumping every table (users, buyers, factories, payments, shipments,
+shipment orders — sessions excluded) in one consistent transaction, ordered so
+the tables can be re-inserted top-to-bottom without breaking foreign keys.
+
 ## Notes
 
 - Invoice amounts are `Float` USD; payment amounts are `Float` in whatever

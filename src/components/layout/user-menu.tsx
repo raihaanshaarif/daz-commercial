@@ -1,6 +1,13 @@
 "use client";
 
-import { LogOut, Moon, ShieldCheck, Sun, User as UserIcon } from "lucide-react";
+import {
+  DatabaseBackup,
+  LogOut,
+  Moon,
+  ShieldCheck,
+  Sun,
+  User as UserIcon,
+} from "lucide-react";
 import { useTheme } from "next-themes";
 import {
   DropdownMenu,
@@ -76,6 +83,17 @@ export function UserMenu({
             <span className="ml-auto text-xs text-muted-foreground">Active</span>
           )}
         </DropdownMenuItem>
+        {role === "ADMIN" && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <a href="/api/backup" download>
+                <DatabaseBackup className="size-4" />
+                Backup database
+              </a>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator />
         <form action={logout}>
           <DropdownMenuItem asChild>
