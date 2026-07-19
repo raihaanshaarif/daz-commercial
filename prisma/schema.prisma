@@ -1,4 +1,4 @@
-// Voice Shipment Tracker — schema
+// Daz Shipment Tracker — schema
 // Money fields use Float per spec. If paisa/cent-level precision ever matters,
 // migrate to Decimal (Prisma Decimal) — comparisons here use an epsilon.
 

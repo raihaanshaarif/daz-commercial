@@ -1,4 +1,4 @@
-# Voice Shipment Tracker
+# Daz Shipment Tracker
 
 A shipment & invoice payment-tracking app that replaces the "Voice Shipment
 Summary.xlsx" workflow. Track buyers, factories, invoices (with multiple order

@@ -15,8 +15,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Voice Shipment Tracker",
+  title: "Daz Shipment Tracker",
   description: "Shipment & invoice payment tracking",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
 };
 
 export default function RootLayout({

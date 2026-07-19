@@ -19,7 +19,7 @@ export default async function LoginPage() {
           </span>
           <div>
             <h1 className="text-xl font-semibold tracking-tight">
-              Voice Shipment Tracker
+              Daz Shipment Tracker
             </h1>
             <p className="text-sm text-muted-foreground">
               Sign in to continue
