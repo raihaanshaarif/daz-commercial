@@ -99,8 +99,8 @@ export async function ShipmentTable({
                 <TableHead>Handover Date</TableHead>
                 <TableHead>ETD</TableHead>
                 <TableHead className="text-right">LAC</TableHead>
-                <TableHead>Approx Payment Date</TableHead>
                 <TableHead>ETA</TableHead>
+                <TableHead>Approx Payment Date</TableHead>
                 <TableHead className="min-w-[200px]">Payment</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
@@ -158,10 +158,10 @@ export async function ShipmentTable({
                     {s.lac != null ? formatUSD(s.lac) : "—"}
                   </TableCell>
                   <TableCell className="whitespace-nowrap text-sm text-muted-foreground">
-                    {formatDate(s.approxPaymentDate)}
+                    {formatDate(s.eta)}
                   </TableCell>
                   <TableCell className="whitespace-nowrap text-sm text-muted-foreground">
-                    {formatDate(s.eta)}
+                    {formatDate(s.approxPaymentDate)}
                   </TableCell>
 
                   {/* Merged payment cell — one block per payment group */}
