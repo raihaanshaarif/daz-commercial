@@ -68,9 +68,10 @@ export async function getShipments(
           },
         },
       },
-      // Group invoices sharing a payment next to each other (for merged cells),
-      // sort by approx payment date descending by default.
+      // Primary: rows with missing ETD always show at top.
+      // Then sort by approx payment date descending, grouped invoices by receive date, unpaid rows last.
       orderBy: [
+        { etd: { sort: "asc", nulls: "first" } },
         { approxPaymentDate: { sort: "desc", nulls: "last" } },
         { payment: { receiveDate: "desc" } },
         { paymentId: { sort: "desc", nulls: "last" } },
