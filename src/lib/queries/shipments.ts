@@ -69,8 +69,9 @@ export async function getShipments(
         },
       },
       // Group invoices sharing a payment next to each other (for merged cells),
-      // paid batches by most-recent receive date, unpaid rows last.
+      // sort by approx payment date descending by default.
       orderBy: [
+        { approxPaymentDate: { sort: "desc", nulls: "last" } },
         { payment: { receiveDate: "desc" } },
         { paymentId: { sort: "desc", nulls: "last" } },
         { bookingDate: { sort: "desc", nulls: "last" } },
