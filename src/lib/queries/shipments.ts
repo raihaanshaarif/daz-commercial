@@ -68,10 +68,9 @@ export async function getShipments(
           },
         },
       },
-      // Primary: rows with missing ETD always show at top.
-      // Then sort by approx payment date descending (latest first), grouped invoices by receive date, unpaid rows last.
+      // Primary: sort by approx payment date descending (latest first).
+      // Rows with missing ETD appear within the normal sort order.
       orderBy: [
-        { etd: { sort: "asc", nulls: "first" } },
         { approxPaymentDate: "desc" },
         { payment: { receiveDate: "desc" } },
         { paymentId: { sort: "desc", nulls: "last" } },
