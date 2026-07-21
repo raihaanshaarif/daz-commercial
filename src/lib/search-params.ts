@@ -44,6 +44,11 @@ export function parseShipmentFilters(sp: RawSearchParams): ShipmentFilters {
   const extraColumns = list(sp.columns).filter((c) =>
     validExtraColumns.has(c),
   ) as ShipmentFilters["extraColumns"];
+  
+  // Show bookingHandoverDate by default if no columns are specified
+  if (extraColumns.length === 0 && !sp.columns) {
+    extraColumns.push("bookingHandoverDate");
+  }
 
   return {
     q: (first(sp.q) ?? "").trim(),
